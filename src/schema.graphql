@@ -7,7 +7,7 @@ type Query {
 
 type Mutation {
   createUser(data: CreateUserInput!): AuthPayload!
-  login(data: LoginUserInput!): AuthPayload!
+  # login(data: LoginUserInput!): AuthPayload!
   deleteUser: User!
   updateUser(data: UpdateUserInput!): User!
 }
@@ -21,29 +21,33 @@ type AuthPayload {
 }
 
 input CreateUserInput {
+  id: ID
   name: String!
-  email: String!
-  password: String!
+  nominal: Int!
+  charCode: String!
+  value: Float!
 }
 
-input LoginUserInput {
-  email: String!
-  password: String!
-}
+# input LoginUserInput {
+#   email: String!
+#   password: String!
+# }
 
 input UpdateUserInput {
   name: String
-  email: String
-  password: String
+  nominal: Int
+  charCode: String
+  value: Float
 }
 
 type User {
   id: ID!
   name: String!
-  email: String
-  password: String!
-  updatedAt: String!
-  createdAt: String!
+  nominal: Int!
+  charCode: String!
+  value: Float!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 enum MutationType {
