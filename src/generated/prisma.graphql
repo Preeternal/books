@@ -1,5 +1,5 @@
 # source: http://localhost:4466/food/dev
-# timestamp: Mon May 13 2019 10:59:07 GMT+0300 (GMT+03:00)
+# timestamp: Tue May 14 2019 15:25:11 GMT+0300 (GMT+03:00)
 
 type AggregateUser {
   count: Int!
@@ -81,8 +81,9 @@ type Subscription {
 type User implements Node {
   id: ID!
   name: String!
-  email: String!
-  password: String!
+  nominal: Int!
+  charCode: String!
+  value: Float!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -100,8 +101,9 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
-  email: String!
-  password: String!
+  nominal: Int!
+  charCode: String!
+  value: Float!
 }
 
 """An edge in a connection."""
@@ -118,10 +120,12 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  email_ASC
-  email_DESC
-  password_ASC
-  password_DESC
+  nominal_ASC
+  nominal_DESC
+  charCode_ASC
+  charCode_DESC
+  value_ASC
+  value_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -131,8 +135,9 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String!
-  email: String!
-  password: String!
+  nominal: Int!
+  charCode: String!
+  value: Float!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -176,14 +181,16 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   name: String
-  email: String
-  password: String
+  nominal: Int
+  charCode: String
+  value: Float
 }
 
 input UserUpdateManyMutationInput {
   name: String
-  email: String
-  password: String
+  nominal: Int
+  charCode: String
+  value: Float
 }
 
 input UserWhereInput {
@@ -275,86 +282,90 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  email: String
+  nominal: Int
 
   """All values that are not equal to given value."""
-  email_not: String
+  nominal_not: Int
 
   """All values that are contained in given list."""
-  email_in: [String!]
+  nominal_in: [Int!]
 
   """All values that are not contained in given list."""
-  email_not_in: [String!]
+  nominal_not_in: [Int!]
 
   """All values less than the given value."""
-  email_lt: String
+  nominal_lt: Int
 
   """All values less than or equal the given value."""
-  email_lte: String
+  nominal_lte: Int
 
   """All values greater than the given value."""
-  email_gt: String
+  nominal_gt: Int
 
   """All values greater than or equal the given value."""
-  email_gte: String
-
-  """All values containing the given string."""
-  email_contains: String
-
-  """All values not containing the given string."""
-  email_not_contains: String
-
-  """All values starting with the given string."""
-  email_starts_with: String
-
-  """All values not starting with the given string."""
-  email_not_starts_with: String
-
-  """All values ending with the given string."""
-  email_ends_with: String
-
-  """All values not ending with the given string."""
-  email_not_ends_with: String
-  password: String
+  nominal_gte: Int
+  charCode: String
 
   """All values that are not equal to given value."""
-  password_not: String
+  charCode_not: String
 
   """All values that are contained in given list."""
-  password_in: [String!]
+  charCode_in: [String!]
 
   """All values that are not contained in given list."""
-  password_not_in: [String!]
+  charCode_not_in: [String!]
 
   """All values less than the given value."""
-  password_lt: String
+  charCode_lt: String
 
   """All values less than or equal the given value."""
-  password_lte: String
+  charCode_lte: String
 
   """All values greater than the given value."""
-  password_gt: String
+  charCode_gt: String
 
   """All values greater than or equal the given value."""
-  password_gte: String
+  charCode_gte: String
 
   """All values containing the given string."""
-  password_contains: String
+  charCode_contains: String
 
   """All values not containing the given string."""
-  password_not_contains: String
+  charCode_not_contains: String
 
   """All values starting with the given string."""
-  password_starts_with: String
+  charCode_starts_with: String
 
   """All values not starting with the given string."""
-  password_not_starts_with: String
+  charCode_not_starts_with: String
 
   """All values ending with the given string."""
-  password_ends_with: String
+  charCode_ends_with: String
 
   """All values not ending with the given string."""
-  password_not_ends_with: String
+  charCode_not_ends_with: String
+  value: Float
+
+  """All values that are not equal to given value."""
+  value_not: Float
+
+  """All values that are contained in given list."""
+  value_in: [Float!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [Float!]
+
+  """All values less than the given value."""
+  value_lt: Float
+
+  """All values less than or equal the given value."""
+  value_lte: Float
+
+  """All values greater than the given value."""
+  value_gt: Float
+
+  """All values greater than or equal the given value."""
+  value_gte: Float
   updatedAt: DateTime
 
   """All values that are not equal to given value."""
@@ -403,5 +414,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  email: String
+  name: String
+  charCode: String
 }
