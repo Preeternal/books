@@ -5,17 +5,18 @@ import hashPassword from "../utils/hashPassword";
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
-    const password = await hashPassword(args.data.password);
-    const user = prisma.mutation.createUser({
-      data: {
-        ...args.data,
-        password
-      }
-    });
-    return {
-      user,
-      token: generateToken(user.id)
-    };
+    // const password = await hashPassword(args.data.password);
+    // const user = prisma.mutation.createUser({
+    //   data: {
+    //     ...args.data
+    //     // password
+    //   }
+    // });
+    // return {
+    //   user
+    //   // token: generateToken(user.id)
+    // };
+    return prisma.mutation.createUser(args, info);
   },
   // async login(parent, args, { prisma }, info) {
   //   const user = await prisma.query.user({
@@ -41,20 +42,20 @@ const Mutation = {
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
-    let password;
-    if (typeof args.data.password === "string") {
-      password = await hashPassword(args.data.password);
-    } else {
-      password = args.data.password;
-    }
+    // let password;
+    // if (typeof args.data.password === "string") {
+    //   password = await hashPassword(args.data.password);
+    // } else {
+    //   password = args.data.password;
+    // }
     return prisma.mutation.updateUser(
       {
         where: {
           id: userId
         },
         data: {
-          ...args.data,
-          password
+          ...args.data
+          // password
         }
       },
       info
