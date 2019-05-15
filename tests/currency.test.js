@@ -12,13 +12,12 @@ beforeEach(seedDatabase);
 
 test("Should create a new currency", async () => {
   const variables = {
-    data: { name: "долляр", nominal: 1, charCode: "usd", value: 0.5 }
+    data: { name: "доллар", nominal: 1, charCode: "usd", value: 0.5 }
   };
   const response = await client.mutate({
     mutation: createCurrency,
     variables
   });
-  // console.log(response.data.createUser);
   const exists = await prisma.exists.User({ id: response.data.createUser.id });
   expect(exists).toBe(true);
   expect(response.data.createUser.value).toBe(0.5);
@@ -40,7 +39,31 @@ test("Should delete currency by ID", async () => {
     variables
   });
   const exists = await prisma.exists.User({ id: response.data.deleteUser.id });
-  expect(exist).toBe(false);
+  expect(exists).toBe(false);
+});
+
+test("Should delete currency by name", async () => {
+  const variables = {
+    where: { name: userOne.user.name }
+  };
+  const response = await client.mutate({
+    mutation: deleteCurrency,
+    variables
+  });
+  const exists = await prisma.exists.User({ name: response.data.deleteUser.name });
+  expect(exists).toBe(false);
+});
+
+test("Should delete currency by charCode", async () => {
+  const variables = {
+    where: { charCode: userOne.user.charCode }
+  };
+  const response = await client.mutate({
+    mutation: deleteCurrency,
+    variables
+  });
+  const exists = await prisma.exists.User({ name: response.data.deleteUser.charCode });
+  expect(exists).toBe(false);
 });
 
 // test("Should not login with bad credentials", async () => {
