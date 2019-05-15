@@ -2,7 +2,7 @@ import "cross-fetch/polyfill";
 import prisma from "../src/prisma";
 import seedDatabase, { userOne } from "./utils/seedDatabase";
 import getClient from "./utils/getClient";
-import { createUser } from "./utils/operations";
+import { createCurrency, getCurrencies } from "./utils/operations";
 
 jest.setTimeout(30000);
 
@@ -15,7 +15,7 @@ test("Should create a new currency", async () => {
     data: { name: "долляр", nominal: 1, charCode: "usd", value: 0.5 }
   };
   const response = await client.mutate({
-    mutation: createUser,
+    mutation: createCurrency,
     variables
   });
   // console.log(response.data.createUser);
@@ -24,12 +24,12 @@ test("Should create a new currency", async () => {
   expect(response.data.createUser.value).toBe(0.5);
 });
 
-// test("Should expose public author profile", async () => {
-//   const response = await client.query({ query: getUsers });
-//   expect(response.data.users.length).toBe(2);
-//   expect(response.data.users[0].email).toBe(null);
-//   expect(response.data.users[0].name).toBe("Jen");
-// });
+test("Should query currencies", async () => {
+  const response = await client.query({ query: getCurrencies });
+  expect(response.data.users.length).toBe(1);
+  expect(response.data.users[0].value).toBe(1000000);
+  expect(response.data.users[0].name).toBe("рубль");
+});
 
 // test("Should not login with bad credentials", async () => {
 //   const variables = {
