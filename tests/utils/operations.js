@@ -24,6 +24,18 @@ const getCurrencies = gql`
   }
 `;
 
+const deleteCurrency = gql`
+  mutation {
+    deleteUser(where: $where) {
+      id
+      name
+      nominal
+      charCode
+      value
+    }
+  }
+`;
+
 // const login = gql`
 //   # mutation($data: LoginUserInput!) {
 //   #   login(data: $data) {
@@ -43,4 +55,4 @@ const getCurrencies = gql`
 //   # }
 // `;
 
-export { createCurrency, getCurrencies };
+export { createCurrency, getCurrencies, deleteCurrency };

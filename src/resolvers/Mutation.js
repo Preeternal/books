@@ -36,9 +36,10 @@ const Mutation = {
   //     token: generateToken(user.id)
   //   };
   // },
-  async deleteUser(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request);
-    return prisma.mutation.deleteUser({ where: { id: userId } }, info);
+  async deleteUser(parent, args, { prisma }, info) {
+    // const userId = getUserId(request);
+    // return prisma.mutation.deleteUser({ where: { id: userId } }, info);
+    return prisma.mutation.deleteUser(args, info);
   },
   async updateUser(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);

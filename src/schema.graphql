@@ -8,7 +8,7 @@ type Query {
 type Mutation {
   createUser(data: CreateUserInput!): User!
   # login(data: LoginUserInput!): AuthPayload!
-  deleteUser: User!
+  deleteUser(where: UserWhereUniqueInput!): User!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -26,6 +26,12 @@ input CreateUserInput {
   nominal: Int!
   charCode: String!
   value: Float!
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  name: String
+  charCode: String
 }
 
 # input LoginUserInput {

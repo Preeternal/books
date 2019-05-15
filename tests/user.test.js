@@ -2,7 +2,7 @@ import "cross-fetch/polyfill";
 import prisma from "../src/prisma";
 import seedDatabase, { userOne } from "./utils/seedDatabase";
 import getClient from "./utils/getClient";
-import { createCurrency, getCurrencies } from "./utils/operations";
+import { createCurrency, getCurrencies, deleteCurrency } from "./utils/operations";
 
 jest.setTimeout(30000);
 
@@ -29,6 +29,18 @@ test("Should query currencies", async () => {
   expect(response.data.users.length).toBe(1);
   expect(response.data.users[0].value).toBe(1000000);
   expect(response.data.users[0].name).toBe("рубль");
+});
+
+test("Should delete currency by ID", async () => {
+  const variables = {
+    where: { id: userOne.user.id }
+  };
+  const response = await client.mutate({
+    mutation: deleteCurrency,
+    variables
+  });
+  const exists = await prisma.exists.User({ id: response.data.deleteUser.id });
+  expect(exist).toBe(false);
 });
 
 // test("Should not login with bad credentials", async () => {
