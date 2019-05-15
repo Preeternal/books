@@ -1,15 +1,20 @@
 # import UserOrderByInput from './generated/prisma.graphql'
 
 type Query {
-  users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
-  # me: User!
+  currencies(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: CurrencyOrderByInput
+  ): [Currency!]!
+  currency(where: CurrencyWhereUniqueInput!): Currency
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
-  # login(data: LoginUserInput!): AuthPayload!
-  deleteUser(where: UserWhereUniqueInput!): User!
-  updateUser(data: UpdateUserInput!): User!
+  createCurrency(data: CurrencyCreateInput!): Currency!
+  updateCurrency(data: CurrencyUpdateInput!): Currency
+  deleteCurrency(where: CurrencyWhereUniqueInput!): Currency
 }
 
 # type Subscription {
@@ -20,7 +25,7 @@ type Mutation {
 #   user: User!
 # }
 
-input CreateUserInput {
+input CurrencyCreateInput {
   id: ID
   name: String!
   nominal: Int!
@@ -28,7 +33,7 @@ input CreateUserInput {
   value: Float!
 }
 
-input UserWhereUniqueInput {
+input CurrencyWhereUniqueInput {
   id: ID
   name: String
   charCode: String
@@ -39,14 +44,14 @@ input UserWhereUniqueInput {
 #   password: String!
 # }
 
-input UpdateUserInput {
+input CurrencyUpdateInput {
   name: String
   nominal: Int
   charCode: String
   value: Float
 }
 
-type User {
+type Currency {
   id: ID!
   name: String!
   nominal: Int!

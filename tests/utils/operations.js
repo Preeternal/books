@@ -1,8 +1,8 @@
 import { gql } from "apollo-boost";
 
 const createCurrency = gql`
-  mutation($data: CreateUserInput!) {
-    createUser(data: $data) {
+  mutation($data: CurrencyCreateInput!) {
+    createCurrency(data: $data) {
       id
       name
       nominal
@@ -14,7 +14,7 @@ const createCurrency = gql`
 
 const getCurrencies = gql`
   query {
-    users {
+    currencies {
       id
       name
       nominal
@@ -25,8 +25,8 @@ const getCurrencies = gql`
 `;
 
 const deleteCurrency = gql`
-  mutation($where: UserWhereUniqueInput!) {
-    deleteUser(where: $where) {
+  mutation($where: CurrencyWhereUniqueInput!) {
+    deleteCurrency(where: $where) {
       id
       name
       nominal

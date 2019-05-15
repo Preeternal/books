@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const getUserId = (request, requireAuth = true) => {
+const getCurrencyId = (request, requireAuth = true) => {
   const header = request.request
     ? request.request.headers.authorization // http
     : request.connection.context.Authorization; //web sockets
@@ -16,4 +16,4 @@ const getUserId = (request, requireAuth = true) => {
   return null;
 };
 
-export { getUserId as default };
+export { getCurrencyId as default };

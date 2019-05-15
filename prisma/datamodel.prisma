@@ -1,4 +1,4 @@
-type User {
+type Currency {
   id: ID! @unique
   name: String! @unique
   nominal: Int!

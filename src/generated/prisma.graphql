@@ -1,7 +1,7 @@
 # source: http://localhost:4466/food/dev
-# timestamp: Tue May 14 2019 15:25:11 GMT+0300 (GMT+03:00)
+# timestamp: Wed May 15 2019 20:21:19 GMT+0300 (GMT+03:00)
 
-type AggregateUser {
+type AggregateCurrency {
   count: Int!
 }
 
@@ -10,75 +10,7 @@ type BatchPayload {
   count: Long!
 }
 
-scalar DateTime
-
-"""Raw JSON value"""
-scalar Json
-
-"""
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
-scalar Long
-
-type Mutation {
-  createUser(data: UserCreateInput!): User!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteUser(where: UserWhereUniqueInput!): User
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
-}
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-"""An object with an ID"""
-interface Node {
-  """The id of the object."""
-  id: ID!
-}
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: String
-}
-
-enum PrismaDatabase {
-  default
-}
-
-type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  user(where: UserWhereUniqueInput!): User
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-}
-
-type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type User implements Node {
+type Currency implements Node {
   id: ID!
   name: String!
   nominal: Int!
@@ -89,16 +21,16 @@ type User implements Node {
 }
 
 """A connection to a list of items."""
-type UserConnection {
+type CurrencyConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
+  edges: [CurrencyEdge]!
+  aggregate: AggregateCurrency!
 }
 
-input UserCreateInput {
+input CurrencyCreateInput {
   id: ID
   name: String!
   nominal: Int!
@@ -107,15 +39,15 @@ input UserCreateInput {
 }
 
 """An edge in a connection."""
-type UserEdge {
+type CurrencyEdge {
   """The item at the end of the edge."""
-  node: User!
+  node: Currency!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum UserOrderByInput {
+enum CurrencyOrderByInput {
   id_ASC
   id_DESC
   name_ASC
@@ -132,7 +64,7 @@ enum UserOrderByInput {
   createdAt_DESC
 }
 
-type UserPreviousValues {
+type CurrencyPreviousValues {
   id: ID!
   name: String!
   nominal: Int!
@@ -142,22 +74,22 @@ type UserPreviousValues {
   createdAt: DateTime!
 }
 
-type UserSubscriptionPayload {
+type CurrencySubscriptionPayload {
   mutation: MutationType!
-  node: User
+  node: Currency
   updatedFields: [String!]
-  previousValues: UserPreviousValues
+  previousValues: CurrencyPreviousValues
 }
 
-input UserSubscriptionWhereInput {
+input CurrencySubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [UserSubscriptionWhereInput!]
+  AND: [CurrencySubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [UserSubscriptionWhereInput!]
+  OR: [CurrencySubscriptionWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [UserSubscriptionWhereInput!]
+  NOT: [CurrencySubscriptionWhereInput!]
 
   """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
@@ -176,32 +108,32 @@ input UserSubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: UserWhereInput
+  node: CurrencyWhereInput
 }
 
-input UserUpdateInput {
+input CurrencyUpdateInput {
   name: String
   nominal: Int
   charCode: String
   value: Float
 }
 
-input UserUpdateManyMutationInput {
+input CurrencyUpdateManyMutationInput {
   name: String
   nominal: Int
   charCode: String
   value: Float
 }
 
-input UserWhereInput {
+input CurrencyWhereInput {
   """Logical AND on all given filters."""
-  AND: [UserWhereInput!]
+  AND: [CurrencyWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [UserWhereInput!]
+  OR: [CurrencyWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [UserWhereInput!]
+  NOT: [CurrencyWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -412,8 +344,76 @@ input UserWhereInput {
   createdAt_gte: DateTime
 }
 
-input UserWhereUniqueInput {
+input CurrencyWhereUniqueInput {
   id: ID
   name: String
   charCode: String
+}
+
+scalar DateTime
+
+"""Raw JSON value"""
+scalar Json
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createCurrency(data: CurrencyCreateInput!): Currency!
+  updateCurrency(data: CurrencyUpdateInput!, where: CurrencyWhereUniqueInput!): Currency
+  deleteCurrency(where: CurrencyWhereUniqueInput!): Currency
+  upsertCurrency(where: CurrencyWhereUniqueInput!, create: CurrencyCreateInput!, update: CurrencyUpdateInput!): Currency!
+  updateManyCurrencies(data: CurrencyUpdateManyMutationInput!, where: CurrencyWhereInput): BatchPayload!
+  deleteManyCurrencies(where: CurrencyWhereInput): BatchPayload!
+  executeRaw(database: PrismaDatabase, query: String!): Json!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+enum PrismaDatabase {
+  default
+}
+
+type Query {
+  currencies(where: CurrencyWhereInput, orderBy: CurrencyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Currency]!
+  currency(where: CurrencyWhereUniqueInput!): Currency
+  currenciesConnection(where: CurrencyWhereInput, orderBy: CurrencyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CurrencyConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  currency(where: CurrencySubscriptionWhereInput): CurrencySubscriptionPayload
 }

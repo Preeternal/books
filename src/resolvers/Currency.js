@@ -1,10 +1,10 @@
-import getUserId from "../utils/getUserId";
+import getCurrencyId from "../utils/getCurrencyId";
 
-const User = {
+const Currency = {
   // email: {
   //   fragment: "fragment userId on User { id }",
   //   resolve(parent, args, { request }, info) {
-  //     const userId = getUserId(request, false);
+  //     const userId = getCurrencyId(request, false);
   //     if (userId && userId === parent.id) {
   //       return parent.email;
   //     } else {
@@ -20,4 +20,4 @@ const User = {
   // }
 };
 
-export { User as default };
+export { Currency as default };

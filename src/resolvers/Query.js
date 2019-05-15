@@ -1,7 +1,7 @@
-import getUserId from "../utils/getUserId";
+import getCurrencyId from "../utils/getCurrencyId";
 
 const Query = {
-  users(parent, args, { prisma }, info) {
+  currencies(parent, args, { prisma }, info) {
     const opArgs = {
       first: args.first,
       skip: args.skip,
@@ -17,16 +17,16 @@ const Query = {
         ]
       };
     }
-    return prisma.query.users(opArgs, info);
+    return prisma.query.currencies(opArgs, info);
+  },
+  currency(parent, args, { prisma, request }, info) {
+    const currencyId = getCurrencyId(request);
+    return prisma.query.currency({
+      where: {
+        id: userId // добавить OR OR OR
+      }
+    });
   }
-  // me(parent, args, { prisma, request }, info) {
-  //   const userId = getUserId(request);
-  //   return prisma.query.user({
-  //     where: {
-  //       id: userId
-  //     }
-  //   });
-  // }
 };
 
 export { Query as default };

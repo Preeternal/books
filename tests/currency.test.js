@@ -1,6 +1,6 @@
 import "cross-fetch/polyfill";
 import prisma from "../src/prisma";
-import seedDatabase, { userOne } from "./utils/seedDatabase";
+import seedDatabase, { currencyOne } from "./utils/seedDatabase";
 import getClient from "./utils/getClient";
 import { createCurrency, getCurrencies, deleteCurrency } from "./utils/operations";
 
@@ -18,51 +18,51 @@ test("Should create a new currency", async () => {
     mutation: createCurrency,
     variables
   });
-  const exists = await prisma.exists.User({ id: response.data.createUser.id });
+  const exists = await prisma.exists.Currency({ id: response.data.createCurrency.id });
   expect(exists).toBe(true);
-  expect(response.data.createUser.value).toBe(0.5);
+  expect(response.data.createCurrency.value).toBe(0.5);
 });
 
 test("Should query currencies", async () => {
   const response = await client.query({ query: getCurrencies });
-  expect(response.data.users.length).toBe(1);
-  expect(response.data.users[0].value).toBe(1000000);
-  expect(response.data.users[0].name).toBe("рубль");
+  expect(response.data.currencies.length).toBe(1);
+  expect(response.data.currencies[0].value).toBe(1000000);
+  expect(response.data.currencies[0].name).toBe("рубль");
 });
 
 test("Should delete currency by ID", async () => {
   const variables = {
-    where: { id: userOne.user.id }
+    where: { id: currencyOne.currency.id }
   };
   const response = await client.mutate({
     mutation: deleteCurrency,
     variables
   });
-  const exists = await prisma.exists.User({ id: response.data.deleteUser.id });
+  const exists = await prisma.exists.Currency({ id: response.data.deleteCurrency.id });
   expect(exists).toBe(false);
 });
 
 test("Should delete currency by name", async () => {
   const variables = {
-    where: { name: userOne.user.name }
+    where: { name: currencyOne.currency.name }
   };
   const response = await client.mutate({
     mutation: deleteCurrency,
     variables
   });
-  const exists = await prisma.exists.User({ name: response.data.deleteUser.name });
+  const exists = await prisma.exists.Currency({ name: response.data.deleteCurrency.name });
   expect(exists).toBe(false);
 });
 
 test("Should delete currency by charCode", async () => {
   const variables = {
-    where: { charCode: userOne.user.charCode }
+    where: { charCode: currencyOne.currency.charCode }
   };
   const response = await client.mutate({
     mutation: deleteCurrency,
     variables
   });
-  const exists = await prisma.exists.User({ name: response.data.deleteUser.charCode });
+  const exists = await prisma.exists.Currency({ name: response.data.deleteCurrency.charCode });
   expect(exists).toBe(false);
 });
 
