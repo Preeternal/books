@@ -1,34 +1,31 @@
-// const request = new XMLHttpRequest();
-// request.open("GET", "http://www.cbr.ru/scripts/XML_daily_eng.asp", false);
-// request.send();
-// const cbr = request.responseXML;
-
 import url from "url";
 import http from "http";
+import xml2js from "xml2js";
 
 const myURL = url.parse("http://www.cbr.ru/scripts/XML_daily_eng.asp");
-const cbr = myURL;
+// console.log(myURL);
 
-console.log(cbr);
-
-const req = http.get("http://www.cbr.ru/scripts/XML_daily_eng.asp", function(res) {
+var parser = new xml2js.Parser();
+const request = http.get("http://www.cbr.ru/scripts/XML_daily_eng.asp", response => {
   // save the data
-  console.log(res);
-  var xml = "";
-  res.on("data", function(chunk) {
+  let xml = "";
+  response.on("data", chunk => {
     xml += chunk;
   });
-
-  res.on("end", function() {
+  response.on("end", () => {
     // parse xml
+    parser.parseString(xml, (err, result) => {
+      console.dir(result.ValCurs.Valute[0].Value[0]);
+    });
   });
-
   // or you can pipe the data to a parser
-  // res.pipe(dest);
+  // response.pipe(dest);
 });
 
-req.on("error", function(err) {
+request.on("error", error => {
   // debug error
 });
 
+const cbr = "";
+// https://nodejs.org/de/docs/guides/timers-in-node/
 export default cbr;
