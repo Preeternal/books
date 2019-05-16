@@ -50,6 +50,9 @@ const Mutation = {
     //   password = args.data.password;
     // }
     return prisma.mutation.updateCurrency(args, info);
+  },
+  async upsertCurrency(parent, args, { prisma }, info) {
+    return prisma.mutation.upsertCurrency(args, info);
   }
 };
 

@@ -12,6 +12,18 @@ const createCurrency = gql`
   }
 `;
 
+const getCurrency = gql`
+  query($where: CurrencyWhereUniqueInput!) {
+    currency(where: $where) {
+      id
+      name
+      nominal
+      charCode
+      value
+    }
+  }
+`;
+
 const getCurrencies = gql`
   query {
     currencies {
@@ -48,4 +60,4 @@ const updateCurrency = gql`
   }
 `;
 
-export { createCurrency, getCurrencies, deleteCurrency, updateCurrency };
+export { createCurrency, getCurrency, getCurrencies, deleteCurrency, updateCurrency };

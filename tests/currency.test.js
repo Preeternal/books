@@ -2,13 +2,27 @@ import "cross-fetch/polyfill";
 import prisma from "../src/prisma";
 import seedDatabase, { currencyOne, currencyTwo } from "./utils/seedDatabase";
 import getClient from "./utils/getClient";
-import { createCurrency, getCurrencies, deleteCurrency, updateCurrency } from "./utils/operations";
+import {
+  createCurrency,
+  getCurrency,
+  getCurrencies,
+  deleteCurrency,
+  updateCurrency
+} from "./utils/operations";
 
 jest.setTimeout(30000);
 
 const client = getClient();
 
 beforeEach(seedDatabase);
+
+test("Should query 'euro' currency from the server", async () => {
+  const variables = {
+    where: { charCode: "eur" }
+  };
+  const response = await client.query({ query: getCurrency, variables });
+  expect(response.data.currency.charCode).toBe("eur");
+});
 
 test("Should query currencies", async () => {
   const response = await client.query({ query: getCurrencies });
