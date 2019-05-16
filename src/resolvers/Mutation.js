@@ -42,25 +42,14 @@ const Mutation = {
     return prisma.mutation.deleteCurrency(args, info);
   },
   async updateCurrency(parent, args, { prisma, request }, info) {
-    const currencyId = getCurrencyId(request);
+    // const currencyId = getCurrencyId(request);
     // let password;
     // if (typeof args.data.password === "string") {
     //   password = await hashPassword(args.data.password);
     // } else {
     //   password = args.data.password;
     // }
-    return prisma.mutation.updateCurrency(
-      {
-        where: {
-          id: currencyId
-        },
-        data: {
-          ...args.data
-          // password
-        }
-      },
-      info
-    );
+    return prisma.mutation.updateCurrency(args, info);
   }
 };
 

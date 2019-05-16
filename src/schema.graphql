@@ -13,7 +13,12 @@ type Query {
 
 type Mutation {
   createCurrency(data: CurrencyCreateInput!): Currency!
-  updateCurrency(data: CurrencyUpdateInput!): Currency
+  updateCurrency(data: CurrencyUpdateInput!, where: CurrencyWhereUniqueInput!): Currency
+  upsertCurrency(
+    where: CurrencyWhereUniqueInput!
+    create: CurrencyCreateInput!
+    update: CurrencyUpdateInput!
+  ): Currency!
   deleteCurrency(where: CurrencyWhereUniqueInput!): Currency
 }
 

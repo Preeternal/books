@@ -1,14 +1,21 @@
 import "cross-fetch/polyfill";
 import prisma from "../src/prisma";
-import seedDatabase, { currencyOne } from "./utils/seedDatabase";
+import seedDatabase, { currencyOne, currencyTwo } from "./utils/seedDatabase";
 import getClient from "./utils/getClient";
-import { createCurrency, getCurrencies, deleteCurrency } from "./utils/operations";
+import { createCurrency, getCurrencies, deleteCurrency, updateCurrency } from "./utils/operations";
 
 jest.setTimeout(30000);
 
 const client = getClient();
 
 beforeEach(seedDatabase);
+
+test("Should query currencies", async () => {
+  const response = await client.query({ query: getCurrencies });
+  expect(response.data.currencies.length).toBe(2);
+  expect(response.data.currencies[0].value).toBe(1000000);
+  expect(response.data.currencies[0].name).toBe("рубль");
+});
 
 test("Should create a new currency", async () => {
   const variables = {
@@ -23,11 +30,30 @@ test("Should create a new currency", async () => {
   expect(response.data.createCurrency.value).toBe(0.5);
 });
 
-test("Should query currencies", async () => {
-  const response = await client.query({ query: getCurrencies });
-  expect(response.data.currencies.length).toBe(1);
-  expect(response.data.currencies[0].value).toBe(1000000);
-  expect(response.data.currencies[0].name).toBe("рубль");
+test("Should update currency nominal and value ", async () => {
+  const variables = {
+    data: { nominal: 2, value: 0.25 },
+    where: { charCode: currencyTwo.currency.charCode }
+  };
+  const response = await client.mutate({
+    mutation: updateCurrency,
+    variables
+  });
+  expect(response.data.updateCurrency.nominal).toBe(2);
+  expect(response.data.updateCurrency.value).toBe(0.25);
+});
+
+test("Should update unique currency charCode if it exist in data base", async () => {
+  const variables = {
+    data: { charCode: "usd" },
+    where: { name: "евро" }
+  };
+  await expect(
+    client.mutate({
+      mutation: updateCurrency,
+      variables
+    })
+  ).resolves.toBeTruthy();
 });
 
 test("Should delete currency by ID", async () => {

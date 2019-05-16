@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+// import bcrypt from "bcryptjs";
+// import jwt from "jsonwebtoken";
 import prisma from "../../src/prisma";
 
 const currencyOne = {
@@ -8,27 +8,27 @@ const currencyOne = {
   // jwt: undefined
 };
 
-// const userTwo = {
-//   input: { name: "John", email: "johnny@mail.com", password: bcrypt.hashSync("manInBlack") },
-//   user: undefined
-//   // jwt: undefined
-// };
+const currencyTwo = {
+  input: { name: "евро", nominal: 1, charCode: "eur", value: 0.6 },
+  user: undefined
+  // jwt: undefined
+};
 
 const seedDatabase = async () => {
   // delete test data
   await prisma.mutation.deleteManyCurrencies();
 
-  // create userOne
+  // create currencyOne
   currencyOne.currency = await prisma.mutation.createCurrency({
     data: currencyOne.input
   });
   // userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET);
 
-  // create userTwo
-  // userTwo.user = await prisma.mutation.createUser({
-  //   data: userTwo.input
-  // });
+  // create currencyTwo
+  currencyTwo.currency = await prisma.mutation.createCurrency({
+    data: currencyTwo.input
+  });
   // userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_SECRET);
 };
 
-export { seedDatabase as default, currencyOne };
+export { seedDatabase as default, currencyOne, currencyTwo };

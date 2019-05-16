@@ -36,4 +36,16 @@ const deleteCurrency = gql`
   }
 `;
 
-export { createCurrency, getCurrencies, deleteCurrency };
+const updateCurrency = gql`
+  mutation($data: CurrencyUpdateInput!, $where: CurrencyWhereUniqueInput!) {
+    updateCurrency(data: $data, where: $where) {
+      id
+      name
+      nominal
+      charCode
+      value
+    }
+  }
+`;
+
+export { createCurrency, getCurrencies, deleteCurrency, updateCurrency };

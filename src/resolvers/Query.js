@@ -13,6 +13,9 @@ const Query = {
         OR: [
           {
             name_contains: args.query
+          },
+          {
+            charCode_contains: args.query
           }
         ]
       };
@@ -20,12 +23,8 @@ const Query = {
     return prisma.query.currencies(opArgs, info);
   },
   currency(parent, args, { prisma, request }, info) {
-    const currencyId = getCurrencyId(request);
-    return prisma.query.currency({
-      where: {
-        id: userId // добавить OR OR OR
-      }
-    });
+    // const currencyId = getCurrencyId(request);
+    return prisma.query.currency(args, info);
   }
 };
 
