@@ -1,9 +1,13 @@
 import http from "http";
 import xml2js from "xml2js";
 import iconv from "iconv-lite";
+import prisma from "../prisma";
+import getClient from "../../tests/utils/getClient";
+import { createCurrency, updateCurrency } from "../../tests/utils/operations";
 
 const dailyUrl = "http://www.cbr.ru/scripts/XML_daily.asp";
 const dailyEnUrl = "http://www.cbr.ru/scripts/XML_daily_eng.asp";
+const client = getClient();
 
 const xmlParser = new xml2js.Parser();
 const dailyUrlRequest = http.get(dailyUrl, response => {
@@ -16,21 +20,39 @@ const dailyUrlRequest = http.get(dailyUrl, response => {
     const decodedXmlBody = iconv.decode(Buffer.concat(xmlChunks), "windows-1251");
     // console.log(decodedXmlBody);
     // parse xml
-    xmlParser.parseString(decodedXmlBody, (err, result) => {
+    xmlParser.parseString(decodedXmlBody, async (error, result) => {
+      await prisma.mutation.deleteManyCurrencies();
       if (result) {
-        // console.dir(result.ValCurs.Valute[0].Value[0]);
-        // console.dir(result.ValCurs.Valute.length);
-        // console.log(result.ValCurs.Valute[0].Name[0]);
-        result.ValCurs.Valute.forEach(function(element) {
-          console.log(element.Name);
+        console.dir(result.ValCurs.$.Date);
+        result.ValCurs.Valute.forEach(async element => {
+          // console.log(element.Name[0]);
+          // console.log(Number(element.Nominal[0]));
+          // console.log(element.CharCode[0]);
+          // console.log(
+          //   Number(
+          //     element.Value[0].match(",") ? element.Value[0].replace(",", ".") : element.Value[0]
+          //   )
+          // );
+          const variables = {
+            data: {
+              name: element.Name[0],
+              nominal: Number(element.Nominal[0]),
+              charCode: element.CharCode[0],
+              value: Number(
+                element.Value[0].match(",") ? element.Value[0].replace(",", ".") : element.Value[0]
+              )
+            }
+          };
+          const response = await client.mutate({
+            mutation: createCurrency,
+            variables
+          });
         });
-      } else if (err) {
-        console.log(err);
+      } else if (error) {
+        console.log(error);
       }
     });
   });
-  // or you can pipe the data to a parser
-  // response.pipe(dest);
 });
 
 dailyUrlRequest.on("error", error => {
