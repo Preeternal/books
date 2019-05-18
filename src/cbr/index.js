@@ -17,7 +17,6 @@ const dailyUrlRequest = http.get(dailyUrl, response => {
   });
   response.on("end", () => {
     const decodedXmlBody = iconv.decode(Buffer.concat(xmlChunks), "windows-1251");
-    // console.log(decodedXmlBody);
     // parse xml
     xmlParser.parseString(decodedXmlBody, async (error, result) => {
       if (result) {
@@ -29,14 +28,6 @@ const dailyUrlRequest = http.get(dailyUrl, response => {
         console.dir(result.ValCurs.$.Date);
         console.dir(result.ValCurs.Valute.length);
         result.ValCurs.Valute.forEach(async element => {
-          // console.log(element.Name[0]);
-          // console.log(Number(element.Nominal[0]));
-          // console.log(element.CharCode[0]);
-          // console.log(
-          //   Number(
-          //     element.Value[0].match(",") ? element.Value[0].replace(",", ".") : element.Value[0]
-          //   )
-          // );
           await prisma.mutation.upsertCurrency({
             where: {
               charCode: element.CharCode[0]
@@ -67,21 +58,16 @@ const dailyUrlRequest = http.get(dailyUrl, response => {
         });
 
         if (!enTrue) {
-          console.log(!!enTrue);
           const dailyEnUrlRequest = http.get(dailyEnUrl, response => {
-            // save the data
             const xmlChunks = [];
             response.on("data", chunk => {
               xmlChunks.push(chunk);
             });
             response.on("end", () => {
               const decodedXmlBody = iconv.decode(Buffer.concat(xmlChunks), "windows-1251");
-              // parse xml
               xmlParser.parseString(decodedXmlBody, (error, result) => {
                 if (result) {
-                  // console.log(result);
                   result.ValCurs.Valute.forEach(async element => {
-                    // console.log(element.Name[0]);
                     await prisma.mutation.updateCurrency({
                       where: {
                         charCode: element.CharCode[0]
@@ -98,7 +84,6 @@ const dailyUrlRequest = http.get(dailyUrl, response => {
             });
           });
           dailyEnUrlRequest.on("error", error => {
-            // debug error
             console.log(error);
           });
         }
