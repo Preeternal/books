@@ -5,6 +5,7 @@ import prisma from "../prisma";
 import getClient from "../../tests/utils/getClient";
 import { createCurrency, updateCurrency } from "../../tests/utils/operations";
 
+const cbr = "";
 const dailyUrl = "http://www.cbr.ru/scripts/XML_daily.asp";
 const dailyEnUrl = "http://www.cbr.ru/scripts/XML_daily_eng.asp";
 const client = getClient();
@@ -21,9 +22,15 @@ const dailyUrlRequest = http.get(dailyUrl, response => {
     // console.log(decodedXmlBody);
     // parse xml
     xmlParser.parseString(decodedXmlBody, async (error, result) => {
-      await prisma.mutation.deleteManyCurrencies();
       if (result) {
+        await prisma.mutation.deleteManyCurrencies();
+        const dateArray = result.ValCurs.$.Date.split(".").map(Number);
+        const date = new Date(dateArray[2], dateArray[1] - 1, dateArray[0], 12);
+        console.log(date.valueOf());
+        const date2 = new Date();
+        console.log(date2.valueOf());
         console.dir(result.ValCurs.$.Date);
+        console.dir(result.ValCurs.Valute.length);
         result.ValCurs.Valute.forEach(async element => {
           // console.log(element.Name[0]);
           // console.log(Number(element.Nominal[0]));
@@ -87,7 +94,5 @@ dailyUrlRequest.on("error", error => {
 // dailyUrlEnRequest.on("error", error => {
 //   // debug error
 // });
-
-const cbr = "";
 // https://nodejs.org/de/docs/guides/timers-in-node/
 export default cbr;

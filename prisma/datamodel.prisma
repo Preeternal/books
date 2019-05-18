@@ -1,6 +1,7 @@
 type Currency {
   id: ID! @unique
   name: String! @unique
+  nameEng: String @unique
   nominal: Int!
   charCode: String! @unique
   value: Float!

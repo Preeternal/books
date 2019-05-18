@@ -5,6 +5,7 @@ const createCurrency = gql`
     createCurrency(data: $data) {
       id
       name
+      nameEng
       nominal
       charCode
       value
@@ -17,6 +18,7 @@ const getCurrency = gql`
     currency(where: $where) {
       id
       name
+      nameEng
       nominal
       charCode
       value
@@ -29,6 +31,7 @@ const getCurrencies = gql`
     currencies {
       id
       name
+      nameEng
       nominal
       charCode
       value
@@ -41,6 +44,7 @@ const deleteCurrency = gql`
     deleteCurrency(where: $where) {
       id
       name
+      nameEng
       nominal
       charCode
       value
@@ -53,6 +57,7 @@ const updateCurrency = gql`
     updateCurrency(data: $data, where: $where) {
       id
       name
+      nameEng
       nominal
       charCode
       value

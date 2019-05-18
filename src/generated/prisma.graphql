@@ -1,5 +1,5 @@
 # source: http://localhost:4466/food/dev
-# timestamp: Wed May 15 2019 20:21:19 GMT+0300 (GMT+03:00)
+# timestamp: Fri May 17 2019 20:16:23 GMT+0300 (GMT+03:00)
 
 type AggregateCurrency {
   count: Int!
@@ -13,6 +13,7 @@ type BatchPayload {
 type Currency implements Node {
   id: ID!
   name: String!
+  nameEng: String
   nominal: Int!
   charCode: String!
   value: Float!
@@ -33,6 +34,7 @@ type CurrencyConnection {
 input CurrencyCreateInput {
   id: ID
   name: String!
+  nameEng: String
   nominal: Int!
   charCode: String!
   value: Float!
@@ -52,6 +54,8 @@ enum CurrencyOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  nameEng_ASC
+  nameEng_DESC
   nominal_ASC
   nominal_DESC
   charCode_ASC
@@ -67,6 +71,7 @@ enum CurrencyOrderByInput {
 type CurrencyPreviousValues {
   id: ID!
   name: String!
+  nameEng: String
   nominal: Int!
   charCode: String!
   value: Float!
@@ -113,6 +118,7 @@ input CurrencySubscriptionWhereInput {
 
 input CurrencyUpdateInput {
   name: String
+  nameEng: String
   nominal: Int
   charCode: String
   value: Float
@@ -120,6 +126,7 @@ input CurrencyUpdateInput {
 
 input CurrencyUpdateManyMutationInput {
   name: String
+  nameEng: String
   nominal: Int
   charCode: String
   value: Float
@@ -214,6 +221,46 @@ input CurrencyWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  nameEng: String
+
+  """All values that are not equal to given value."""
+  nameEng_not: String
+
+  """All values that are contained in given list."""
+  nameEng_in: [String!]
+
+  """All values that are not contained in given list."""
+  nameEng_not_in: [String!]
+
+  """All values less than the given value."""
+  nameEng_lt: String
+
+  """All values less than or equal the given value."""
+  nameEng_lte: String
+
+  """All values greater than the given value."""
+  nameEng_gt: String
+
+  """All values greater than or equal the given value."""
+  nameEng_gte: String
+
+  """All values containing the given string."""
+  nameEng_contains: String
+
+  """All values not containing the given string."""
+  nameEng_not_contains: String
+
+  """All values starting with the given string."""
+  nameEng_starts_with: String
+
+  """All values not starting with the given string."""
+  nameEng_not_starts_with: String
+
+  """All values ending with the given string."""
+  nameEng_ends_with: String
+
+  """All values not ending with the given string."""
+  nameEng_not_ends_with: String
   nominal: Int
 
   """All values that are not equal to given value."""
@@ -347,6 +394,7 @@ input CurrencyWhereInput {
 input CurrencyWhereUniqueInput {
   id: ID
   name: String
+  nameEng: String
   charCode: String
 }
 

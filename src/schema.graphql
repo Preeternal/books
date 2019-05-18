@@ -33,6 +33,7 @@ type Mutation {
 input CurrencyCreateInput {
   id: ID
   name: String!
+  nameEng: String
   nominal: Int!
   charCode: String!
   value: Float!
@@ -41,6 +42,7 @@ input CurrencyCreateInput {
 input CurrencyWhereUniqueInput {
   id: ID
   name: String
+  nameEng: String
   charCode: String
 }
 
@@ -51,6 +53,7 @@ input CurrencyWhereUniqueInput {
 
 input CurrencyUpdateInput {
   name: String
+  nameEng: String
   nominal: Int
   charCode: String
   value: Float
@@ -59,6 +62,7 @@ input CurrencyUpdateInput {
 type Currency {
   id: ID!
   name: String!
+  nameEng: String
   nominal: Int!
   charCode: String!
   value: Float!
