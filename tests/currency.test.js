@@ -150,6 +150,7 @@ test("Should create new currency by upsertCurrency", async () => {
   });
   expect(response.data.upsertCurrency.charCode).toBe("BYN");
   const exists = await prisma.exists.Currency({ name: response.data.upsertCurrency.name });
+  expect(exists).toBe(true);
 });
 
 // test("Should not login with bad credentials", async () => {

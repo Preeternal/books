@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import http from "http";
 import xml2js from "xml2js";
 import iconv from "iconv-lite";
