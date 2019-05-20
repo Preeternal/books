@@ -31,6 +31,7 @@
     "graphql-yoga": "^1.14.10",
     "iconv-lite": "^0.4.24",
     "jsonwebtoken": "^8.5.1",
+    "node-cron": "^2.0.3",
     "prisma-binding": "^2.3.10",
     "xml2js": "^0.4.19"
   },

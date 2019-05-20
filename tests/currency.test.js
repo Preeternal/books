@@ -7,7 +7,8 @@ import {
   getCurrency,
   getCurrencies,
   deleteCurrency,
-  updateCurrency
+  updateCurrency,
+  upsertCurrency
 } from "./utils/operations";
 
 jest.setTimeout(30000);
@@ -104,6 +105,51 @@ test("Should delete currency by charCode", async () => {
   });
   const exists = await prisma.exists.Currency({ name: response.data.deleteCurrency.charCode });
   expect(exists).toBe(false);
+});
+
+test("Should upsert currency by charCode", async () => {
+  const variables = {
+    where: {
+      charCode: "eur"
+    },
+    create: {
+      name: "белорусский рубль",
+      nominal: 1,
+      charCode: "BYN",
+      value: 1
+    },
+    update: {
+      charCode: "gbp"
+    }
+  };
+  const response = await client.mutate({
+    mutation: upsertCurrency,
+    variables
+  });
+  expect(response.data.upsertCurrency.charCode).toBe("gbp");
+});
+
+test("Should create new currency by upsertCurrency", async () => {
+  const variables = {
+    where: {
+      charCode: "BYN"
+    },
+    create: {
+      name: "белорусский рубль",
+      nominal: 1,
+      charCode: "BYN",
+      value: 1
+    },
+    update: {
+      charCode: "gbp"
+    }
+  };
+  const response = await client.mutate({
+    mutation: upsertCurrency,
+    variables
+  });
+  expect(response.data.upsertCurrency.charCode).toBe("BYN");
+  const exists = await prisma.exists.Currency({ name: response.data.upsertCurrency.name });
 });
 
 // test("Should not login with bad credentials", async () => {
