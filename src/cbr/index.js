@@ -66,6 +66,7 @@ const cbr = () => {
           // const date2 = new Date();
           // console.log(date2.valueOf());
           console.dir(result.ValCurs.$.Date);
+          console.log(new Date());
           // console.dir(result.ValCurs.Valute.length);
           result.ValCurs.Valute.forEach(async element => {
             await prisma.mutation.upsertCurrency({
