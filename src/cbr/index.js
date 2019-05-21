@@ -1,19 +1,19 @@
 /* eslint-disable no-console */
-import http from "http";
+import https from "https";
 import xml2js from "xml2js";
 import iconv from "iconv-lite";
 import prisma from "../prisma";
 import url from "url";
 
-const dailyUrl = "http://www.cbr.ru/scripts/XML_daily.asp";
+const dailyUrl = "https://www.cbr.ru/scripts/XML_daily.asp";
 // /scripts/XML_daily.asp
 
-const dailyEnUrl = "http://www.cbr.ru/scripts/XML_daily_eng.asp";
+const dailyEnUrl = "https://www.cbr.ru/scripts/XML_daily_eng.asp";
 
 const xmlParser = new xml2js.Parser();
 
 const cbr = () => {
-  const dailyUrlRequest = http.get(dailyUrl, response => {
+  const dailyUrlRequest = https.get(dailyUrl, response => {
     const { statusCode } = response;
     console.log(response.headers.location);
     const contentType = response.headers["content-type"];
@@ -102,7 +102,7 @@ const cbr = () => {
           });
 
           if (!enTrue || result.ValCurs.Valute.length !== 34) {
-            const dailyEnUrlRequest = http.get(dailyEnUrl, response => {
+            const dailyEnUrlRequest = https.get(dailyEnUrl, response => {
               const xmlChunks = [];
               response.on("data", chunk => {
                 xmlChunks.push(chunk);
