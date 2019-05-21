@@ -8,7 +8,7 @@ server.start({ port: process.env.PORT || 4000 }, () => {
   console.log("The server is up!");
 });
 
-cron.schedule("7 * * * * *", () => {
+cron.schedule("0-59 * * * *", () => {
   // eslint-disable-next-line no-console
   console.log("running cbr");
   cbr();
