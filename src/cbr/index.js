@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import http from "http";
 import xml2js from "xml2js";
 import iconv from "iconv-lite";
@@ -14,10 +15,12 @@ const cbr = () => {
     const xmlChunks = [];
     response.on("data", chunk => {
       xmlChunks.push(chunk);
+      // console.log(chunk);
     });
     response.on("end", () => {
       const decodedXmlBody = iconv.decode(Buffer.concat(xmlChunks), "windows-1251");
       // parse xml
+      // console.log(decodedXmlBody);
       xmlParser.parseString(decodedXmlBody, async (error, result) => {
         if (result) {
           // const dateArray = result.ValCurs.$.Date.split(".").map(Number);
@@ -93,6 +96,8 @@ const cbr = () => {
           }
         } else if (error) {
           console.log(error);
+        } else {
+          console.log("something else");
         }
       });
     });
