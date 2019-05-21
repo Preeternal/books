@@ -15,7 +15,6 @@ const xmlParser = new xml2js.Parser();
 const cbr = () => {
   const dailyUrlRequest = https.get(dailyUrl, response => {
     const { statusCode } = response;
-    console.log(response.headers.location);
     const contentType = response.headers["content-type"];
 
     let error;
@@ -28,6 +27,7 @@ const cbr = () => {
     }
 
     if (statusCode > 300 && statusCode < 400 && response.headers.location) {
+      console.log(response.headers.location);
       // The location for some (most) redirects will only contain the path,  not the hostname;
       // detect this and add the host to the path.
       if (url.parse(response.headers.location).hostname) {
