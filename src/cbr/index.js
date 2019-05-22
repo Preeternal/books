@@ -6,8 +6,6 @@ import prisma from "../prisma";
 // import url from "url";
 
 const dailyUrl = "https://www.cbr.ru/scripts/XML_daily.asp";
-// /scripts/XML_daily.asp
-
 const dailyEnUrl = "https://www.cbr.ru/scripts/XML_daily_eng.asp";
 
 const xmlParser = new xml2js.Parser();
