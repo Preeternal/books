@@ -8,7 +8,7 @@ server.start({ port: process.env.PORT || 4000 }, () => {
   console.log("The server is up!");
 });
 
-cron.schedule("0-59 * * * *", () => {
+cron.schedule("2,16,32,47 * * * *", () => {
   console.log("running cbr");
   cbr();
 });

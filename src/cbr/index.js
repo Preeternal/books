@@ -3,7 +3,7 @@ import https from "https";
 import xml2js from "xml2js";
 import iconv from "iconv-lite";
 import prisma from "../prisma";
-import url from "url";
+// import url from "url";
 
 const dailyUrl = "https://www.cbr.ru/scripts/XML_daily.asp";
 // /scripts/XML_daily.asp
@@ -22,25 +22,25 @@ const cbr = () => {
       error = new Error("Request Failed.\n" + `Status Code: ${statusCode}`);
     } else if (!/^application\/xml/.test(contentType)) {
       error = new Error(
-        "Invalid content-type.\n" + `Expected application/json but received ${contentType}`
+        "Invalid content-type.\n" + `Expected application/xml but received ${contentType}`
       );
     }
 
-    if (statusCode > 300 && statusCode < 400 && response.headers.location) {
-      console.log(response.headers.location);
-      // The location for some (most) redirects will only contain the path,  not the hostname;
-      // detect this and add the host to the path.
-      if (url.parse(response.headers.location).hostname) {
-        console.log("Hostname included; make request to res.headers.location");
-      } else {
-        console.log(
-          "Hostname not included; get host from requested URL (url.parse()) and prepend to location."
-        );
-        console.log(url.parse(`https://www.cbr.ru${response.headers.location}`));
-      }
+    // if (statusCode > 300 && statusCode < 400 && response.headers.location) {
+    //   console.log(response.headers.location);
+    //   // The location for some (most) redirects will only contain the path,  not the hostname;
+    //   // detect this and add the host to the path.
+    //   if (url.parse(response.headers.location).hostname) {
+    //     console.log("Hostname included; make request to res.headers.location");
+    //   } else {
+    //     console.log(
+    //       "Hostname not included; get host from requested URL (url.parse()) and prepend to location."
+    //     );
+    //     console.log(url.parse(`https://www.cbr.ru${response.headers.location}`));
+    //   }
+    //   // Otherwise no redirect; capture the response as normal
+    // }
 
-      // Otherwise no redirect; capture the response as normal
-    }
     if (error) {
       console.error(error.message);
       // Consume response data to free up memory
@@ -52,7 +52,6 @@ const cbr = () => {
     const xmlChunks = [];
     response.on("data", chunk => {
       xmlChunks.push(chunk);
-      // console.log(chunk);
     });
     response.on("end", () => {
       const decodedXmlBody = iconv.decode(Buffer.concat(xmlChunks), "windows-1251");
@@ -65,8 +64,8 @@ const cbr = () => {
           // console.log(date.valueOf());
           // const date2 = new Date();
           // console.log(date2.valueOf());
-          console.dir(result.ValCurs.$.Date);
-          console.log(new Date());
+          // console.dir(result.ValCurs.$.Date);
+          // console.log(new Date());
           // console.dir(result.ValCurs.Valute.length);
           result.ValCurs.Valute.forEach(async element => {
             await prisma.mutation.upsertCurrency({
