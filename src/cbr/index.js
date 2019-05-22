@@ -1,21 +1,55 @@
 /* eslint-disable no-console */
-import http from "http";
+import https from "https";
 import xml2js from "xml2js";
 import iconv from "iconv-lite";
 import prisma from "../prisma";
+// import url from "url";
 
-const dailyUrl = "http://www.cbr.ru/scripts/XML_daily.asp";
-const dailyEnUrl = "http://www.cbr.ru/scripts/XML_daily_eng.asp";
+const dailyUrl = "https://www.cbr.ru/scripts/XML_daily.asp";
+const dailyEnUrl = "https://www.cbr.ru/scripts/XML_daily_eng.asp";
 
 const xmlParser = new xml2js.Parser();
 
 const cbr = () => {
-  const dailyUrlRequest = http.get(dailyUrl, response => {
+  const dailyUrlRequest = https.get(dailyUrl, response => {
+    const { statusCode } = response;
+    const contentType = response.headers["content-type"];
+
+    let error;
+    if (statusCode !== 200) {
+      error = new Error("Request Failed.\n" + `Status Code: ${statusCode}`);
+    } else if (!/^application\/xml/.test(contentType)) {
+      error = new Error(
+        "Invalid content-type.\n" + `Expected application/xml but received ${contentType}`
+      );
+    }
+
+    // if (statusCode > 300 && statusCode < 400 && response.headers.location) {
+    //   console.log(response.headers.location);
+    //   // The location for some (most) redirects will only contain the path,  not the hostname;
+    //   // detect this and add the host to the path.
+    //   if (url.parse(response.headers.location).hostname) {
+    //     console.log("Hostname included; make request to res.headers.location");
+    //   } else {
+    //     console.log(
+    //       "Hostname not included; get host from requested URL (url.parse()) and prepend to location."
+    //     );
+    //     console.log(url.parse(`https://www.cbr.ru${response.headers.location}`));
+    //   }
+    //   // Otherwise no redirect; capture the response as normal
+    // }
+
+    if (error) {
+      console.error(error.message);
+      // Consume response data to free up memory
+      response.resume();
+      return;
+    }
+
     // save the data
     const xmlChunks = [];
     response.on("data", chunk => {
       xmlChunks.push(chunk);
-      // console.log(chunk);
     });
     response.on("end", () => {
       const decodedXmlBody = iconv.decode(Buffer.concat(xmlChunks), "windows-1251");
@@ -28,7 +62,8 @@ const cbr = () => {
           // console.log(date.valueOf());
           // const date2 = new Date();
           // console.log(date2.valueOf());
-          console.dir(result.ValCurs.$.Date);
+          // console.dir(result.ValCurs.$.Date);
+          // console.log(new Date());
           // console.dir(result.ValCurs.Valute.length);
           result.ValCurs.Valute.forEach(async element => {
             await prisma.mutation.upsertCurrency({
@@ -65,7 +100,7 @@ const cbr = () => {
           });
 
           if (!enTrue || result.ValCurs.Valute.length !== 34) {
-            const dailyEnUrlRequest = http.get(dailyEnUrl, response => {
+            const dailyEnUrlRequest = https.get(dailyEnUrl, response => {
               const xmlChunks = [];
               response.on("data", chunk => {
                 xmlChunks.push(chunk);
@@ -96,8 +131,6 @@ const cbr = () => {
           }
         } else if (error) {
           console.log(error);
-        } else {
-          console.log("something else");
         }
       });
     });
