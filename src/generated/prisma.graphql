@@ -1,7 +1,11 @@
 # source: http://localhost:4466/food/dev
-# timestamp: Fri May 17 2019 20:16:23 GMT+0300 (GMT+03:00)
+# timestamp: Thu May 23 2019 15:34:56 GMT+0300 (GMT+03:00)
 
 type AggregateCurrency {
+  count: Int!
+}
+
+type AggregateHeroku {
   count: Int!
 }
 
@@ -400,6 +404,239 @@ input CurrencyWhereUniqueInput {
 
 scalar DateTime
 
+type Heroku implements Node {
+  id: ID!
+  result: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type HerokuConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [HerokuEdge]!
+  aggregate: AggregateHeroku!
+}
+
+input HerokuCreateInput {
+  id: ID
+  result: String!
+}
+
+"""An edge in a connection."""
+type HerokuEdge {
+  """The item at the end of the edge."""
+  node: Heroku!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum HerokuOrderByInput {
+  id_ASC
+  id_DESC
+  result_ASC
+  result_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type HerokuPreviousValues {
+  id: ID!
+  result: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type HerokuSubscriptionPayload {
+  mutation: MutationType!
+  node: Heroku
+  updatedFields: [String!]
+  previousValues: HerokuPreviousValues
+}
+
+input HerokuSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [HerokuSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [HerokuSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [HerokuSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: HerokuWhereInput
+}
+
+input HerokuUpdateInput {
+  result: String
+}
+
+input HerokuUpdateManyMutationInput {
+  result: String
+}
+
+input HerokuWhereInput {
+  """Logical AND on all given filters."""
+  AND: [HerokuWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [HerokuWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [HerokuWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  result: String
+
+  """All values that are not equal to given value."""
+  result_not: String
+
+  """All values that are contained in given list."""
+  result_in: [String!]
+
+  """All values that are not contained in given list."""
+  result_not_in: [String!]
+
+  """All values less than the given value."""
+  result_lt: String
+
+  """All values less than or equal the given value."""
+  result_lte: String
+
+  """All values greater than the given value."""
+  result_gt: String
+
+  """All values greater than or equal the given value."""
+  result_gte: String
+
+  """All values containing the given string."""
+  result_contains: String
+
+  """All values not containing the given string."""
+  result_not_contains: String
+
+  """All values starting with the given string."""
+  result_starts_with: String
+
+  """All values not starting with the given string."""
+  result_not_starts_with: String
+
+  """All values ending with the given string."""
+  result_ends_with: String
+
+  """All values not ending with the given string."""
+  result_not_ends_with: String
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+}
+
+input HerokuWhereUniqueInput {
+  id: ID
+}
+
 """Raw JSON value"""
 scalar Json
 
@@ -411,11 +648,17 @@ scalar Long
 
 type Mutation {
   createCurrency(data: CurrencyCreateInput!): Currency!
+  createHeroku(data: HerokuCreateInput!): Heroku!
   updateCurrency(data: CurrencyUpdateInput!, where: CurrencyWhereUniqueInput!): Currency
+  updateHeroku(data: HerokuUpdateInput!, where: HerokuWhereUniqueInput!): Heroku
   deleteCurrency(where: CurrencyWhereUniqueInput!): Currency
+  deleteHeroku(where: HerokuWhereUniqueInput!): Heroku
   upsertCurrency(where: CurrencyWhereUniqueInput!, create: CurrencyCreateInput!, update: CurrencyUpdateInput!): Currency!
+  upsertHeroku(where: HerokuWhereUniqueInput!, create: HerokuCreateInput!, update: HerokuUpdateInput!): Heroku!
   updateManyCurrencies(data: CurrencyUpdateManyMutationInput!, where: CurrencyWhereInput): BatchPayload!
+  updateManyHerokus(data: HerokuUpdateManyMutationInput!, where: HerokuWhereInput): BatchPayload!
   deleteManyCurrencies(where: CurrencyWhereInput): BatchPayload!
+  deleteManyHerokus(where: HerokuWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
@@ -452,8 +695,11 @@ enum PrismaDatabase {
 
 type Query {
   currencies(where: CurrencyWhereInput, orderBy: CurrencyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Currency]!
+  herokus(where: HerokuWhereInput, orderBy: HerokuOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Heroku]!
   currency(where: CurrencyWhereUniqueInput!): Currency
+  heroku(where: HerokuWhereUniqueInput!): Heroku
   currenciesConnection(where: CurrencyWhereInput, orderBy: CurrencyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CurrencyConnection!
+  herokusConnection(where: HerokuWhereInput, orderBy: HerokuOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HerokuConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -464,4 +710,5 @@ type Query {
 
 type Subscription {
   currency(where: CurrencySubscriptionWhereInput): CurrencySubscriptionPayload
+  heroku(where: HerokuSubscriptionWhereInput): HerokuSubscriptionPayload
 }

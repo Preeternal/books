@@ -1,4 +1,4 @@
-import getCurrencyId from "../utils/getCurrencyId";
+// import getCurrencyId from "../utils/getCurrencyId";
 
 const Query = {
   currencies(parent, args, { prisma }, info) {
@@ -22,9 +22,12 @@ const Query = {
     }
     return prisma.query.currencies(opArgs, info);
   },
-  currency(parent, args, { prisma, request }, info) {
+  currency(parent, args, { prisma }, info) {
     // const currencyId = getCurrencyId(request);
     return prisma.query.currency(args, info);
+  },
+  herokus(parent, args, { prisma }, info) {
+    return prisma.query.herokus(args, info);
   }
 };
 

@@ -8,3 +8,10 @@ type Currency {
   updatedAt: DateTime!
   createdAt: DateTime!
 }
+
+type Heroku {
+  id: ID! @unique
+  result: String!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}

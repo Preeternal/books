@@ -1,10 +1,10 @@
-import bcrypt from "bcryptjs";
-import getCurrencyId from "../utils/getCurrencyId";
-import generateToken from "../utils/generateToken";
-import hashPassword from "../utils/hashPassword";
+// import bcrypt from "bcryptjs";
+// import getCurrencyId from "../utils/getCurrencyId";
+// import generateToken from "../utils/generateToken";
+// import hashPassword from "../utils/hashPassword";
 
 const Mutation = {
-  async createCurrency(parent, args, { prisma }, info) {
+  createCurrency(parent, args, { prisma }, info) {
     // const password = await hashPassword(args.data.password);
     // const user = prisma.mutation.createUser({
     //   data: {
@@ -36,12 +36,12 @@ const Mutation = {
   //     token: generateToken(user.id)
   //   };
   // },
-  async deleteCurrency(parent, args, { prisma }, info) {
+  deleteCurrency(parent, args, { prisma }, info) {
     // const userId = getCurrencyId(request);
     // return prisma.mutation.deleteUser({ where: { id: userId } }, info);
     return prisma.mutation.deleteCurrency(args, info);
   },
-  async updateCurrency(parent, args, { prisma, request }, info) {
+  updateCurrency(parent, args, { prisma }, info) {
     // const currencyId = getCurrencyId(request);
     // let password;
     // if (typeof args.data.password === "string") {
@@ -51,8 +51,17 @@ const Mutation = {
     // }
     return prisma.mutation.updateCurrency(args, info);
   },
-  async upsertCurrency(parent, args, { prisma }, info) {
+  upsertCurrency(parent, args, { prisma }, info) {
     return prisma.mutation.upsertCurrency(args, info);
+  },
+  createHeroku(parent, args, { prisma }, info) {
+    return prisma.mutation.createHeroku(args, info);
+  },
+  updateHeroku(parent, args, { prisma }, info) {
+    return prisma.mutation.updateHeroku(args, info);
+  },
+  deleteHeroku(parent, args, { prisma }, info) {
+    return prisma.mutation.deleteHeroku(args, info);
   }
 };
 
