@@ -9,6 +9,7 @@ server.start({ port: process.env.PORT || 4000 }, () => {
 });
 
 cron.schedule("2,16,33,47 * * * *", () => {
+  // cron.schedule("0-59 * * * *", () => {
   console.log("running cbr");
   cbr();
 });

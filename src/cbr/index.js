@@ -11,7 +11,7 @@ const dailyEnUrl = "https://www.cbr.ru/scripts/XML_daily_eng.asp";
 const xmlParser = new xml2js.Parser();
 
 const cbr = () => {
-  const dailyUrlRequest = https.get(dailyUrl, response => {
+  const dailyUrlRequest = https.get(dailyUrl, async response => {
     const { statusCode } = response;
     const contentType = response.headers["content-type"];
 
@@ -42,6 +42,11 @@ const cbr = () => {
     if (error) {
       console.error(error.message);
       // Consume response data to free up memory
+      await prisma.mutation.createHeroku({
+        data: {
+          result: error.message
+        }
+      });
       response.resume();
       return;
     }
@@ -65,6 +70,11 @@ const cbr = () => {
           // console.dir(result.ValCurs.$.Date);
           // console.log(new Date());
           // console.dir(result.ValCurs.Valute.length);
+          await prisma.mutation.createHeroku({
+            data: {
+              result: result.ValCurs.$.Date
+            }
+          });
           result.ValCurs.Valute.forEach(async element => {
             await prisma.mutation.upsertCurrency({
               where: {
