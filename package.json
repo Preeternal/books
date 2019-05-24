@@ -28,7 +28,7 @@
     "env-cmd": "^9.0.1",
     "graphql": "^14.3.0",
     "graphql-cli": "^3.0.11",
-    "graphql-yoga": "^1.14.10",
+    "graphql-yoga": "^1.17.4",
     "iconv-lite": "^0.4.24",
     "jsonwebtoken": "^8.5.1",
     "node-cron": "^2.0.3",
@@ -38,6 +38,6 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "jest": "^23.5.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.19.0"
   }
 }

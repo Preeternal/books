@@ -9,17 +9,21 @@ type Query {
     orderBy: CurrencyOrderByInput
   ): [Currency!]!
   currency(where: CurrencyWhereUniqueInput!): Currency
+  herokus: [Heroku]!
 }
 
 type Mutation {
   createCurrency(data: CurrencyCreateInput!): Currency!
+  createHeroku(data: HerokuCreateInput!): Heroku!
   updateCurrency(data: CurrencyUpdateInput!, where: CurrencyWhereUniqueInput!): Currency
+  updateHeroku(data: HerokuUpdateInput!, where: HerokuWhereUniqueInput!): Heroku
   upsertCurrency(
     where: CurrencyWhereUniqueInput!
     create: CurrencyCreateInput!
     update: CurrencyUpdateInput!
   ): Currency!
   deleteCurrency(where: CurrencyWhereUniqueInput!): Currency
+  deleteHeroku(where: HerokuWhereUniqueInput!): Heroku
 }
 
 # type Subscription {
@@ -59,6 +63,19 @@ input CurrencyUpdateInput {
   value: Float
 }
 
+input HerokuCreateInput {
+  id: ID
+  result: String!
+}
+
+input HerokuUpdateInput {
+  result: String
+}
+
+input HerokuWhereUniqueInput {
+  id: ID
+}
+
 type Currency {
   id: ID!
   name: String!
@@ -66,6 +83,13 @@ type Currency {
   nominal: Int!
   charCode: String!
   value: Float!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type Heroku {
+  id: ID!
+  result: String!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
