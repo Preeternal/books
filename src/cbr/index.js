@@ -91,9 +91,9 @@ const cbr = () => {
                 )
               },
               update: {
-                name: element.Name[0],
+                // name: element.Name[0],
                 nominal: Number(element.Nominal[0]),
-                charCode: element.CharCode[0],
+                // charCode: element.CharCode[0],
                 value: Number(
                   element.Value[0].match(",")
                     ? element.Value[0].replace(",", ".")
