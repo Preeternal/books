@@ -32,12 +32,12 @@
     "iconv-lite": "^0.4.24",
     "jsonwebtoken": "^8.5.1",
     "node-cron": "^2.0.3",
-    "prisma-binding": "^2.3.10",
-    "xml2js": "^0.4.19"
+    "prisma-binding": "^2.3.16",
+    "xml2js": "^0.4.22"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "nodemon": "^1.19.0"
   }
 }
