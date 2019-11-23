@@ -27,7 +27,7 @@
     "cross-fetch": "^3.0.2",
     "env-cmd": "^9.0.1",
     "graphql": "^14.5.8",
-    "graphql-cli": "^3.0.11",
+    "graphql-cli": "^3.0.14",
     "graphql-yoga": "^1.17.4",
     "iconv-lite": "^0.4.24",
     "jsonwebtoken": "^8.5.1",
