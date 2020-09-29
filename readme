@@ -1,0 +1,2 @@
+prisma deploy -e ../config/dev.env
+sudo docker-compose up -d
